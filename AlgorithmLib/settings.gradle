@@ -1,0 +1,3 @@
+rootProject.name='AlgorithmLib'
+include ':app'
+include ':lib'
