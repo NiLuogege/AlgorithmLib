@@ -5,11 +5,30 @@ package com.niluogege.lib.binaryTree;
  * 二叉树
  */
 public class BinaryTreeTest {
+    private static StringBuilder sb = new StringBuilder();
+
     public static void main(String[] args) {
 
+        sb.setLength(0);
+        TreeNode[] tree = createTree();
+
+        //前序递归遍历
+        preOrderRe(tree[0]);
+
+        System.out.println(sb.toString());
 
     }
 
+    /**
+     * 创建一个 完全二叉树 树的形状如下图
+     * <p>
+     * --------0
+     * ----1        2
+     * --3   4    5   6
+     * 7   8   9
+     *
+     * @return
+     */
     private static TreeNode[] createTree() {
         int lenth = 10;
 
@@ -19,7 +38,7 @@ public class BinaryTreeTest {
             node[i] = new TreeNode(i);
         }
 
-        //
+        // 构建完全二叉树
         for (int i = 0; i < lenth; i++) {
 
             int leftNodeIndex = i * 2 + 1;
@@ -40,8 +59,22 @@ public class BinaryTreeTest {
 
     /**
      * 前序遍历递归实现
+     * <p>
+     * 正确结果应该是  0137849256
      */
-    public static void preOrderRe() {
+    private static void preOrderRe(TreeNode rootNode) {
 
+        if (rootNode != null) {
+            sb.append(rootNode.value);
+            if (rootNode.left != null) {
+                preOrderRe(rootNode.left);
+            }
+
+            if (rootNode.right != null) {
+                preOrderRe(rootNode.right);
+            }
+        }
     }
+
+
 }
