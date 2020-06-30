@@ -11,8 +11,13 @@ public class BinaryTreeTest {
         TreeNode[] tree = createTree();
 
         //前序递归遍历
-        preOrderRe(tree[0]);
+//        preOrderRe(tree[0]);
 
+        //中序递归遍历
+//        midOrderRe(tree[0]);
+
+        //后序递归遍历
+        postOrderRe(tree[0]);
     }
 
     /**
@@ -54,7 +59,7 @@ public class BinaryTreeTest {
 
 
     /**
-     * 前序遍历递归实现
+     * 前序遍历 递归实现
      * <p>
      * 正确结果应该是  0137849256
      */
@@ -71,5 +76,42 @@ public class BinaryTreeTest {
         }
     }
 
+
+    /**
+     * 中序遍历 递归实现
+     * <p>
+     * 正确结果应该是：7381940526
+     */
+    private static void midOrderRe(TreeNode rootNode) {
+        if (rootNode != null) {
+            if (rootNode.left != null) {
+                midOrderRe(rootNode.left);
+            }
+            System.out.print(rootNode.value);
+
+            if (rootNode.right != null) {
+                midOrderRe(rootNode.right);
+            }
+        }
+    }
+
+    /**
+     * 后序遍历 递归实现
+     *
+     * 正确结果应该是：7839415620
+     */
+    private static void postOrderRe(TreeNode rootNode) {
+        if (rootNode != null) {
+            if (rootNode.left != null) {
+                postOrderRe(rootNode.left);
+            }
+
+            if (rootNode.right != null) {
+                postOrderRe(rootNode.right);
+            }
+
+            System.out.print(rootNode.value);
+        }
+    }
 
 }
