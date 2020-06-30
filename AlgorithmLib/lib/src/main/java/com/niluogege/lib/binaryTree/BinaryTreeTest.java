@@ -5,17 +5,13 @@ package com.niluogege.lib.binaryTree;
  * 二叉树
  */
 public class BinaryTreeTest {
-    private static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) {
 
-        sb.setLength(0);
         TreeNode[] tree = createTree();
 
         //前序递归遍历
         preOrderRe(tree[0]);
-
-        System.out.println(sb.toString());
 
     }
 
@@ -63,9 +59,8 @@ public class BinaryTreeTest {
      * 正确结果应该是  0137849256
      */
     private static void preOrderRe(TreeNode rootNode) {
-
         if (rootNode != null) {
-            sb.append(rootNode.value);
+            System.out.print(rootNode.value);
             if (rootNode.left != null) {
                 preOrderRe(rootNode.left);
             }
