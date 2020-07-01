@@ -1,16 +1,18 @@
 package com.niluogege.lib.linkList;
 
 /**
- * 链表
+ * 单链表
  */
-public class LinkListTest {
+public class SingleLinkListTest {
 
     public static void main(String[] args) {
 
 
         Node node = craeteLinkList();
         iterateLinkList(node);
-
+        Node reverseNode = reverseByloop(node);
+        System.out.println("");
+        iterateLinkList(reverseNode);
     }
 
 
@@ -52,5 +54,40 @@ public class LinkListTest {
             }
         }
     }
+
+    /**
+     * 链表翻转 - 遍历的方式
+     * @return
+     */
+    private static Node reverseByloop(Node header) {
+
+        if (header == null || header.next == null) {
+            return header;
+        }
+
+        //前一个节点
+        Node preNode = null;
+        //下一个节点
+        Node nextNode = null;
+
+        while (header != null) {
+            // 记录下一个节点
+            nextNode=header.next;
+
+            //设置当前节点 的下一个结节 为前一个节点
+            header.next = preNode;
+
+            //记录前一个节点为 当前节点
+            preNode = header;
+
+
+            //切换到下一个节点
+            header=nextNode;
+
+        }
+
+        return preNode;
+    }
+
 
 }
