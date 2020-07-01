@@ -15,6 +15,8 @@ public class SingleLinkListTest {
 //        System.out.println("");
 //        iterateLinkList(reverseNode);
 
+        //--------------------------
+
         //测试merge
         // one=02468
         Node one = craeteLinkList(2);
