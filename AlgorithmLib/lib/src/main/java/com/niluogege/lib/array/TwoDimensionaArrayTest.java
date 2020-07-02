@@ -54,6 +54,7 @@ public class TwoDimensionaArrayTest {
 
         if (array != null && array.length > 0) {
 
+            //从右上开始查找
             int col = array[0].length - 1;//列
             int row = 0;//行
 
