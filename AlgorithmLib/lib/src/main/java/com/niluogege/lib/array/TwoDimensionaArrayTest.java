@@ -1,5 +1,7 @@
 package com.niluogege.lib.array;
 
+import java.util.Arrays;
+
 /**
  * 二维数组
  */
@@ -14,20 +16,9 @@ public class TwoDimensionaArrayTest {
 //        System.out.println("5= " + search5);
 
 
-        boolean b7 = searchConformRulesArray(orderlyTDArray, 1);
-        System.out.println("7= " + b7);
+        boolean b20 = searchConformRulesArray(orderlyTDArray, 20);
+        System.out.println("b20= " + b20);
 
-        boolean b5 = searchConformRulesArray(orderlyTDArray, 9);
-        System.out.println("5= " + b5);
-
-        boolean b9 = searchConformRulesArray(orderlyTDArray, 9);
-        System.out.println("9= " + b9);
-
-        boolean b15 = searchConformRulesArray(orderlyTDArray, 15);
-        System.out.println("15= " + b15);
-
-        boolean b0 = searchConformRulesArray(orderlyTDArray, 0);
-        System.out.println("0= " + b0);
     }
 
 
@@ -43,10 +34,12 @@ public class TwoDimensionaArrayTest {
      */
     private static int[][] createOrderlyTDArray() {
         return new int[][]{
-                {1, 2, 8, 9},
-                {2, 4, 9, 12},
-                {4, 7, 10, 13},
-                {6, 8, 11, 15}};
+                {1, 4, 7, 11, 15},
+                {2, 5, 8, 12, 19},
+                {3, 6, 9, 16, 22},
+                {10, 13, 14, 17, 24},
+                {18, 21, 23, 26, 30},
+        };
     }
 
 
@@ -59,12 +52,12 @@ public class TwoDimensionaArrayTest {
      */
     private static boolean searchConformRulesArray(int[][] array, int target) {
 
-        if (array != null) {
+        if (array != null && array.length > 0) {
 
             int col = array[0].length - 1;//列
             int row = 0;//行
 
-            while (col >= 0) {
+            while (col >= 0 && col < array[0].length && row >= 0 && row < array.length) {
                 int v = array[row][col];
                 if (v == target) {
                     return true;
