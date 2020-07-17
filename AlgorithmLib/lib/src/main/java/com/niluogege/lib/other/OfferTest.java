@@ -1,6 +1,6 @@
 package com.niluogege.lib.other;
 
-public class LetCodeTest {
+public class OfferTest {
     public static void main(String[] args) {
         int[] arr = {1, 3, 4, 2, 2};
         int duplicate = findDuplicate(arr);
