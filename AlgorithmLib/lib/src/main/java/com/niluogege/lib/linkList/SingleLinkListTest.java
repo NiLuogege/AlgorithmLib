@@ -1,5 +1,7 @@
 package com.niluogege.lib.linkList;
 
+import java.util.Stack;
+
 /**
  * 单链表
  */
@@ -19,19 +21,28 @@ public class SingleLinkListTest {
 
         //测试merge
         // one=02468
-        Node one = craeteLinkList(2);
-        iterateLinkList(one);
+//        Node one = craeteLinkList(2);
+//        iterateLinkList(one);
+//
+//        System.out.println("");
+//
+//        //two=0369
+//        Node two = craeteLinkList(3);
+//        iterateLinkList(two);
+//
+//        System.out.println("");
+//
+//        Node merged = mergeListByRe(one, two);
+//        iterateLinkList(merged);
 
-        System.out.println("");
+        //--------------------------
 
-        //two=0369
-        Node two = craeteLinkList(3);
-        iterateLinkList(two);
-
-        System.out.println("");
-
-        Node merged = mergeListByRe(one, two);
-        iterateLinkList(merged);
+        //测试从尾到头打印
+        Node node = craeteLinkList(1);
+        //使用栈
+//        printListFromTailToHeadWithStack(node);
+        //使用回溯思想
+        printListFromTailToHeadWithBacktracking(node);
     }
 
 
@@ -127,6 +138,41 @@ public class SingleLinkListTest {
             head.next = mergeListByRe(one, two.next);
         }
         return head;
+    }
+
+
+    /**
+     * 从尾到头打印链表 1
+     * <p>
+     * 思路 用栈来辅助实现
+     */
+    private static void printListFromTailToHeadWithStack(Node list) {
+
+        Stack<Integer> stack = new Stack<>();
+        while (list != null) {
+            stack.push(list.value);
+            list = list.next;
+        }
+
+        while (stack != null) {
+            if (!stack.isEmpty())
+                System.out.println("pop = " + stack.pop());
+        }
+
+    }
+
+    /**
+     * 从尾到头打印链表 2
+     * <p>
+     * 思路 使用回溯思想
+     */
+    private static void printListFromTailToHeadWithBacktracking(Node list) {
+        if (list.next != null) {
+            //写在这里就是正序
+            printListFromTailToHeadWithBacktracking(list.next);
+        }
+        //写在这里就是倒序
+        System.out.println(list.value);
     }
 
 
