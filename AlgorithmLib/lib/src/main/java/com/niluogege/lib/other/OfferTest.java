@@ -64,4 +64,37 @@ public class OfferTest {
         return -1;
     }
 
+
+    /**
+     * 题目：写一个函数，输入n，求斐波那契数列的第n项
+     * <p>
+     * 参考：https://blog.csdn.net/weixin_37672169/article/details/80070442
+     * <p>
+     * 分析：
+     * 1. 我们可以使用递归来做 ，不过 使用递归的话 很有很多重复计算，非常的影响效率
+     * 2. 所以我们这里的解法使用 for循环来做
+     */
+    public static int fabonacci(int n) {
+
+        if (n == 0) {
+            return 0;
+        }
+
+        if (n == 1) {
+            return 1;
+        }
+
+        int a = 0;
+        int b = 1;
+        int result = 0;
+
+        for (int i = 2; i < n; i++) {
+            result = a + b;
+            a = b;
+            b = result;
+        }
+
+        return result;
+
+    }
 }
