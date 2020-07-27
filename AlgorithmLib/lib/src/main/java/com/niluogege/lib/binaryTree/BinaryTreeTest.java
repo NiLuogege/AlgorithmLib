@@ -17,7 +17,12 @@ public class BinaryTreeTest {
 //        midOrderRe(tree[0]);
 
         //后序递归遍历
-        postOrderRe(tree[0]);
+//        postOrderRe(tree[0]);
+
+        //查找下一个点
+        TreeNode tree5 = tree[5];
+        TreeNode treeNode = inorderSuccessor(tree5);
+        System.out.println("tree5= "+tree5.value+" treeNode= "+treeNode.value);
     }
 
     /**
@@ -50,6 +55,11 @@ public class BinaryTreeTest {
             int rightNodeIndex = i * 2 + 2;
             if (rightNodeIndex < 10) {
                 node[i].right = node[rightNodeIndex];
+            }
+
+            int fatherNodeIndex = (i - 1) / 2;
+            if (i > 0) {
+                node[i].father = node[fatherNodeIndex];
             }
         }
 
@@ -97,7 +107,7 @@ public class BinaryTreeTest {
 
     /**
      * 后序遍历 递归实现
-     *
+     * <p>
      * 正确结果应该是：7839415620
      */
     private static void postOrderRe(TreeNode rootNode) {
@@ -112,6 +122,36 @@ public class BinaryTreeTest {
 
             System.out.print(rootNode.value);
         }
+    }
+
+
+    /**
+     * 给定一棵二叉树的其中一个节点，请找出中序遍历序列的下一个节点
+     * 参考：https://www.acwing.com/solution/content/714/
+     * 思路：
+     * 1. 因为是 中序遍历 ，所以 遍历方向是从下往上，符合 左跟右的规则
+     * <p>
+     * 分析：
+     * 1. 如果当前节点有 右儿子，那么下一个节点就是 右子树的最左节点
+     * 2. 如果当前节点没有右子树，那么 期父节点的父节点就是 它的后继(还是在左子树上找)
+     */
+    private static TreeNode inorderSuccessor(TreeNode p) {
+        if (p.right != null) {
+            p = p.right;
+            while (p.left != null) {
+                p = p.left;
+            }
+            return p;
+        }
+
+        while (p.father != null) {
+            if (p.father.left == p) {
+                return p.father;
+            }
+            p = p.father;
+        }
+
+        return null;
     }
 
 }
