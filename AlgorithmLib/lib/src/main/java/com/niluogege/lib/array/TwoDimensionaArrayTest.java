@@ -160,9 +160,8 @@ public class TwoDimensionaArrayTest {
 
 
     /**
-     *
-     * @param i 列数
-     * @param j 行数
+     * @param i     列数
+     * @param j     行数
      * @param start 目标字符串的起始位置
      * @return
      */
@@ -194,4 +193,32 @@ public class TwoDimensionaArrayTest {
     private boolean inArea(int x, int y) {
         return x >= 0 && x < m && y >= 0 && y < n;
     }
+
+
+    int k;
+
+    /**
+     * 题目： 机器人的运动范围
+     * <p>
+     * 参加：https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/
+     */
+    private int movingCount(int m, int n, int k) {
+        this.m = m;
+        this.n = n;
+        this.k = k;
+        this.marked = new boolean[m][n];
+        return dfs(0, 0, 0, 0);
+    }
+
+    private int dfs(int i, int j, int si, int sj) {
+        if (i>=m || j>=n || k<si+sj || marked[i][j]){
+            return 0;
+        }
+
+        marked[i][j]=true;
+
+        return 1 + dfs(i + 1, j, (i + 1) % 10 != 0 ? si + 1 : si - 8, sj) + dfs(i, j + 1, si, (j + 1) % 10 != 0 ? sj + 1 : sj - 8);
+    }
+
+
 }
