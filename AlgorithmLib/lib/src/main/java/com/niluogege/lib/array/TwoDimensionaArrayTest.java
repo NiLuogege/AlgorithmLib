@@ -16,8 +16,19 @@ public class TwoDimensionaArrayTest {
 //        System.out.println("5= " + search5);
 
 
-        boolean b20 = searchConformRulesArray(orderlyTDArray, 20);
-        System.out.println("b20= " + b20);
+//        boolean b20 = searchConformRulesArray(orderlyTDArray, 20);
+//        System.out.println("b20= " + b20);
+
+        char[][] board =
+                {
+                        {'A', 'B', 'C', 'E'},
+                        {'S', 'F', 'C', 'S'},
+                        {'A', 'D', 'E', 'E'}
+                };
+
+        String word = "ABCCEF";
+        boolean hasPath = new TwoDimensionaArrayTest().hasPath(board, word);
+        System.out.println(hasPath);
 
     }
 
@@ -102,5 +113,85 @@ public class TwoDimensionaArrayTest {
 
         return "not fond";
 
+    }
+
+
+    //标记
+    private boolean[][] marked;
+
+    //        x-1,y
+    // x,y-1  x,y    x,y+1
+    //        x+1,y
+    private int[][] direction = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
+    // 盘面上有多少行
+    private int m;
+    // 盘面上有多少列
+    private int n;
+    private String word;
+    private char[][] board;
+
+    /**
+     * 题目： 单词搜索
+     * 参考： https://leetcode-cn.com/problems/word-search/solution/zai-er-wei-ping-mian-shang-shi-yong-hui-su-fa-pyth/
+     * <p>
+     * 知识点：其实就是 Flood fill 算法，本质上是一种递归回溯算法
+     */
+
+    public boolean hasPath(char[][] board, String word) {
+        m = board.length;
+        if (m == 0) {
+            return false;
+        }
+        n = board[0].length;
+        marked = new boolean[m][n];
+        this.word = word;
+        this.board = board;
+
+        //二维数组遍历
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (dfs(i, j, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     *
+     * @param i 列数
+     * @param j 行数
+     * @param start 目标字符串的起始位置
+     * @return
+     */
+    private boolean dfs(int i, int j, int start) {
+        //如果起始位置 是 字符串的最后一个 字节，则进行特殊判断
+        if (start == word.length() - 1) {
+            return board[i][j] == word.charAt(start);
+        }
+
+        if (board[i][j] == word.charAt(start)) {//寻找开始点位
+            marked[i][j] = true;
+            for (int k = 0; k < 4; k++) {
+                int newX = i + direction[k][0];
+                int newY = j + direction[k][1];
+                if (inArea(newX, newY) && !marked[newX][newY]) {
+                    if (dfs(newX, newY, start + 1)) {
+                        return true;
+                    }
+                }
+            }
+            marked[i][j] = false;
+        }
+        return false;
+    }
+
+    /**
+     * 保证 没有 越界
+     */
+    private boolean inArea(int x, int y) {
+        return x >= 0 && x < m && y >= 0 && y < n;
     }
 }
