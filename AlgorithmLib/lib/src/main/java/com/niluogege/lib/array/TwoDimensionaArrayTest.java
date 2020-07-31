@@ -19,17 +19,22 @@ public class TwoDimensionaArrayTest {
 //        boolean b20 = searchConformRulesArray(orderlyTDArray, 20);
 //        System.out.println("b20= " + b20);
 
-        char[][] board =
-                {
-                        {'A', 'B', 'C', 'E'},
-                        {'S', 'F', 'C', 'S'},
-                        {'A', 'D', 'E', 'E'}
-                };
 
-        String word = "ABCCEF";
-        boolean hasPath = new TwoDimensionaArrayTest().hasPath(board, word);
-        System.out.println(hasPath);
+        //字符串路径搜索
+//        char[][] board =
+//                {
+//                        {'A', 'B', 'C', 'E'},
+//                        {'S', 'F', 'C', 'S'},
+//                        {'A', 'D', 'E', 'E'}
+//                };
+//
+//        String word = "ABCCEF";
+//        boolean hasPath = new TwoDimensionaArrayTest().hasPath(board, word);
+//        System.out.println(hasPath);
 
+        // 机器人路径
+        int count = new TwoDimensionaArrayTest().movingCount(2, 3, 1);
+        System.out.println("count= "+count);
     }
 
 
@@ -206,18 +211,30 @@ public class TwoDimensionaArrayTest {
         this.m = m;
         this.n = n;
         this.k = k;
+        //用于记录是否走过，防止重复计算
         this.marked = new boolean[m][n];
         return dfs(0, 0, 0, 0);
     }
 
+    /**
+     *
+     * @param i 横向索引
+     * @param j 纵向索引
+     * @param si 横向数位和
+     * @param sj 纵向数位和
+     * @return
+     */
     private int dfs(int i, int j, int si, int sj) {
-        if (i>=m || j>=n || k<si+sj || marked[i][j]){
+        if (i >= m || j >= n || k < si + sj || marked[i][j]) {
             return 0;
         }
 
-        marked[i][j]=true;
+        marked[i][j] = true;
 
-        return 1 + dfs(i + 1, j, (i + 1) % 10 != 0 ? si + 1 : si - 8, sj) + dfs(i, j + 1, si, (j + 1) % 10 != 0 ? sj + 1 : sj - 8);
+        int iNext = (i + 1) % 10 != 0 ? si + 1 : si - 8;
+        int jNext = (j + 1) % 10 != 0 ? sj + 1 : sj - 8;
+
+        return 1 + dfs(i + 1, j, iNext, sj) + dfs(i, j + 1, si, jNext);
     }
 
 
