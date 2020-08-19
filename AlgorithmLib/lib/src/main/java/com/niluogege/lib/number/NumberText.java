@@ -3,7 +3,8 @@ package com.niluogege.lib.number;
 public class NumberText {
     public static void main(String[] args) {
 
-        System.out.println(hammingWeight(-9));
+//        System.out.println(hammingWeight(-9));
+        System.out.println(power(10, -2));
 
     }
 
@@ -26,4 +27,34 @@ public class NumberText {
         }
         return count;
     }
+
+    /**
+     * 题目：实现 pow(x, n) ，即计算 x 的 n 次幂函数。
+     * <p>
+     * 参考：https://leetcode-cn.com/problems/powx-n/solution/50-powx-n-kuai-su-mi-qing-xi-tu-jie-by-jyd/ 中的快速幂方法
+     * <p>
+     * 这里引入 b 是为了解决 越界问题 具体看参考链接中的解释
+     */
+    private static double power(double x, int n) {
+        if (x == 0) return 0;
+
+        long b = n;
+        double res = 1;
+
+        if (b < 0) {
+            b = -b;
+            x = 1 / x;
+        }
+
+        while (b > 0) {
+
+            if ((b & 1) == 1) res *= x; //当 b 是奇数时 需要进行  res *= x 操作
+            x *= x;
+            b >>= 1;//相当于 b /2 取整
+
+        }
+        return res;
+    }
+
+
 }
