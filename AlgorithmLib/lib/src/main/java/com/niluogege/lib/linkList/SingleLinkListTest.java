@@ -38,11 +38,22 @@ public class SingleLinkListTest {
         //--------------------------
 
         //测试从尾到头打印
+//        Node node = craeteLinkList(1);
+//        //使用栈
+////        printListFromTailToHeadWithStack(node);
+//        //使用回溯思想
+//        printListFromTailToHeadWithBacktracking(node);
+
+
+        //--------------------------
+
+        //测试删除重复值节点
         Node node = craeteLinkList(1);
-        //使用栈
-//        printListFromTailToHeadWithStack(node);
-        //使用回溯思想
-        printListFromTailToHeadWithBacktracking(node);
+        iterateLinkList(node);
+        System.out.println("\n");
+        Node deleteDuplicates = deleteDuplicates(node);
+        iterateLinkList(deleteDuplicates);
+
     }
 
 
@@ -57,6 +68,14 @@ public class SingleLinkListTest {
         Node pre = null;
         for (int i = 0; i < 10; i += diff) {
             Node node = new Node(i);
+            if (i==2 || i==1){
+                node= new Node(0);
+            }
+
+            if (i==7 ){
+                node= new Node(6);
+            }
+
             if (header == null) {
                 header = node;
             } else {
@@ -176,4 +195,34 @@ public class SingleLinkListTest {
     }
 
 
+    /**
+     * 题目：给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
+     * 参考：https://liweiwei1419.github.io/sword-for-offer/18-%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E7%BB%93%E7%82%B9/
+     * 思路：因为 头结点 可能会被删除所以要搞一个 虚拟头结点
+     * <p>
+     * <p>
+     * 1->2->2->2->3
+     */
+    private static Node deleteDuplicates(Node head) {
+        //因为头结点可能会被删掉 所以创建 虚拟头结点
+        Node dummyNode = new Node(-1);
+        dummyNode.next = head;
+        Node currentNode = dummyNode;
+        while (currentNode.next != null && currentNode.next.next != null) {
+
+            if (currentNode.next.value == currentNode.next.next.value) {//重复数组节点
+                Node delNode = currentNode.next.next;//记录要删除的节点
+                while (delNode.next.value == currentNode.next.value) {//如果后面还有重复的节点 一并删掉
+                    delNode = delNode.next;//向后移 要删除的节点
+                }
+                currentNode.next=delNode.next;
+                delNode.next=null;
+            } else {
+                currentNode = currentNode.next;
+            }
+
+        }
+
+        return dummyNode.next;
+    }
 }
