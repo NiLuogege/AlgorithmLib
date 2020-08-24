@@ -3,14 +3,21 @@ package com.niluogege.lib.string;
 
 import com.niluogege.lib.utils.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class StringTest {
 
     public static void main(String[] args) {
 //        String space = replaceSpace("We Are Happy");
 //        System.out.println("space= " + space);
 
-        boolean match = isMatch("aa", "a*");
-        System.out.println("match= " + match);
+//        boolean match = isMatch("aa", "a*");
+//        System.out.println("match= " + match);
+
+
+        boolean number = isNumber("+100");
+        System.out.println("number= "+number);
     }
 
 
@@ -88,5 +95,139 @@ public class StringTest {
         }
 
         return s.charAt(i - 1) == p.charAt(j - 1);
+    }
+
+
+    enum State {
+        STATE_INITIAL,//初始状态
+        STATE_INT_SIGN,// 符号位
+        STATE_INTEGER,// 整数部分
+        STATE_POINT,// 左侧有整数的小数点
+        STATE_POINT_WITHOUT_INT, // 左侧无整数的小数点（根据前面的第二条额外规则，需要对左侧有无整数的两种小数点做区分）
+        STATE_FRACTION, // 小数部分
+        STATE_EXP, // 字符 e
+        STATE_EXP_SIGN, // 指数部分的符号位
+        STATE_EXP_NUMBER,  // 指数部分的整数部分
+        STATE_END,// 末尾的空格
+    }
+
+    enum CharType {
+        CHAR_NUMBER, // 数值
+        CHAR_EXP, // e
+        CHAR_POINT, // 小数点
+        CHAR_SIGN, // 符号
+        CHAR_SPACE, // 空格
+        CHAR_ILLEGAL,// 非法字符
+    }
+
+    /**
+     * 题目：请实现一个函数用来判断字符串是否表示数值（包括整数和小数）
+     * 参考： https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof/solution/biao-shi-shu-zhi-de-zi-fu-chuan-by-leetcode-soluti/
+     * <p>
+     * 思路：使用有限状态自动机 这种计算模型来实现， 有限状态自动机 也是 正则表达式的 核心算法原理
+     * 具体思路就是 穷举所有的可能性， 然后在所有可能性中查找， 其实难点是在 穷举所有可能性中
+     */
+    public static boolean isNumber(String s) {
+
+        //转移
+        Map<State, Map<CharType, State>> transfer = new HashMap<>();
+
+        //初始状态 的可能性
+        Map<CharType, State> initMap = new HashMap<CharType, State>() {
+            {
+                put(CharType.CHAR_SPACE, State.STATE_INITIAL);
+                put(CharType.CHAR_NUMBER, State.STATE_INTEGER);
+                put(CharType.CHAR_POINT, State.STATE_POINT_WITHOUT_INT);
+                put(CharType.CHAR_SIGN, State.STATE_INT_SIGN);
+            }
+        };
+        transfer.put(State.STATE_INITIAL, initMap);
+
+        //当前要是符号位 那么 下个字符的可能性
+        Map<CharType, State> intSignMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_NUMBER, State.STATE_INTEGER);
+            put(CharType.CHAR_POINT, State.STATE_POINT_WITHOUT_INT);
+        }};
+        transfer.put(State.STATE_INT_SIGN, intSignMap);
+
+        //当前要是数字 那么 下个字符的可能性
+        Map<CharType, State> integerMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_NUMBER, State.STATE_INTEGER);
+            put(CharType.CHAR_EXP, State.STATE_EXP);
+            put(CharType.CHAR_POINT, State.STATE_POINT);
+            put(CharType.CHAR_SPACE, State.STATE_END);
+        }};
+        transfer.put(State.STATE_INTEGER, integerMap);
+
+        //当前要是 小数 那么 下个字符的可能性
+        Map<CharType, State> pointMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_NUMBER, State.STATE_FRACTION);
+            put(CharType.CHAR_EXP, State.STATE_EXP);
+            put(CharType.CHAR_SPACE, State.STATE_END);
+        }};
+        transfer.put(State.STATE_POINT, pointMap);
+
+        //当前要是 . 开头的小数 那么 下个字符的可能性
+        Map<CharType, State> pointWithoutIntMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_NUMBER, State.STATE_FRACTION);
+        }};
+        transfer.put(State.STATE_POINT_WITHOUT_INT, pointWithoutIntMap);
+
+        Map<CharType, State> fractionMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_NUMBER, State.STATE_FRACTION);
+            put(CharType.CHAR_EXP, State.STATE_EXP);
+            put(CharType.CHAR_SPACE, State.STATE_END);
+        }};
+        transfer.put(State.STATE_FRACTION, fractionMap);
+        Map<CharType, State> expMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_NUMBER, State.STATE_EXP_NUMBER);
+            put(CharType.CHAR_SIGN, State.STATE_EXP_SIGN);
+        }};
+        transfer.put(State.STATE_EXP, expMap);
+        Map<CharType, State> expSignMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_NUMBER, State.STATE_EXP_NUMBER);
+        }};
+        transfer.put(State.STATE_EXP_SIGN, expSignMap);
+        Map<CharType, State> expNumberMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_NUMBER, State.STATE_EXP_NUMBER);
+            put(CharType.CHAR_SPACE, State.STATE_END);
+        }};
+        transfer.put(State.STATE_EXP_NUMBER, expNumberMap);
+        Map<CharType, State> endMap = new HashMap<CharType, State>() {{
+            put(CharType.CHAR_SPACE, State.STATE_END);
+        }};
+        transfer.put(State.STATE_END, endMap);
+
+        int length = s.length();
+        State state = State.STATE_INITIAL;
+
+        for (int i = 0; i < length; i++) {
+            CharType charType = toCharType(s.charAt(i));
+            if (transfer.get(state).containsKey(charType)) {
+                state = transfer.get(state).get(charType);
+            } else {
+                return false;
+            }
+        }
+
+        return state == State.STATE_INTEGER || state == State.STATE_POINT || state == State.STATE_FRACTION
+                || state == State.STATE_EXP_NUMBER || state == State.STATE_END;
+
+    }
+
+    public static CharType toCharType(char ch) {
+        if (ch >= '0' && ch <= '9') {
+            return CharType.CHAR_NUMBER;
+        } else if (ch == 'e' || ch == 'E') {
+            return CharType.CHAR_EXP;
+        } else if (ch == '.') {
+            return CharType.CHAR_POINT;
+        } else if (ch == '+' || ch == '-') {
+            return CharType.CHAR_SIGN;
+        } else if (ch == ' ') {
+            return CharType.CHAR_SPACE;
+        } else {
+            return CharType.CHAR_ILLEGAL;
+        }
     }
 }
