@@ -48,12 +48,20 @@ public class SingleLinkListTest {
         //--------------------------
 
         //测试删除重复值节点
-        Node node = craeteLinkList(1);
-        iterateLinkList(node);
-        System.out.println("\n");
-        Node deleteDuplicates = deleteDuplicates(node);
-        iterateLinkList(deleteDuplicates);
+//        Node node = craeteLinkList(1);
+//        iterateLinkList(node);
+//        System.out.println("\n");
+//        Node deleteDuplicates = deleteDuplicates(node);
+//        iterateLinkList(deleteDuplicates);
 
+
+        //--------------------------
+        //测试倒数第K个节点
+
+        //链表 内容为 0123456789
+        Node node = craeteLinkList(1);
+        Node kth = findKthToTail(node, 6);
+        System.out.println("倒数第K个节点= " + kth.value);
     }
 
 
@@ -68,13 +76,13 @@ public class SingleLinkListTest {
         Node pre = null;
         for (int i = 0; i < 10; i += diff) {
             Node node = new Node(i);
-            if (i==2 || i==1){
-                node= new Node(0);
-            }
-
-            if (i==7 ){
-                node= new Node(6);
-            }
+//            if (i == 2 || i == 1) {
+//                node = new Node(0);
+//            }
+//
+//            if (i == 7) {
+//                node = new Node(6);
+//            }
 
             if (header == null) {
                 header = node;
@@ -215,8 +223,8 @@ public class SingleLinkListTest {
                 while (delNode.next.value == currentNode.next.value) {//如果后面还有重复的节点 一并删掉
                     delNode = delNode.next;//向后移 要删除的节点
                 }
-                currentNode.next=delNode.next;
-                delNode.next=null;
+                currentNode.next = delNode.next;
+                delNode.next = null;
             } else {
                 currentNode = currentNode.next;
             }
@@ -224,5 +232,30 @@ public class SingleLinkListTest {
         }
 
         return dummyNode.next;
+    }
+
+    /**
+     * 题目： 输入一个链表，输出该链表中倒数第 k 个结点。
+     * 参考：https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/solution/mian-shi-ti-22-lian-biao-zhong-dao-shu-di-kge-j-11/
+     * 思路：使用双指针法 ，先移动前指针 和 后指针的 距离为 k, 然后在 同时移动前后指针，知道前指针指向 null ,这时 后指针指向的就是 倒数第 n 个节点，
+     * 这个思路 只需要一遍遍历 就可以，一般的做法 都需要两边遍历
+     *
+     * @param head ： 头结点
+     * @param k    ： 步长
+     * @return
+     */
+    private static Node findKthToTail(Node head, int k) {
+
+        Node befor = head;
+        Node after = head;
+        for (int i = 1; i < k; i++) {
+            befor = befor.next;
+        }
+
+        while (befor.next != null) {
+            befor = befor.next;
+            after = after.next;
+        }
+        return after;
     }
 }
