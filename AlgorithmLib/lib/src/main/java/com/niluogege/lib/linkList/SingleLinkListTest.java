@@ -59,9 +59,21 @@ public class SingleLinkListTest {
         //测试倒数第K个节点
 
         //链表 内容为 0123456789
+//        Node node = craeteLinkList(1);
+//        Node kth = findKthToTail(node, 6);
+//        System.out.println("倒数第K个节点= " + kth.value);
+
+
+        System.out.println("建立了");
+
+        //--------------------------
+        //链表中环的入口结点
         Node node = craeteLinkList(1);
-        Node kth = findKthToTail(node, 6);
-        System.out.println("倒数第K个节点= " + kth.value);
+        //检验成环
+//        iterateLinkList(node);
+
+        Node entryNodeOfLoop = entryNodeOfLoop(node);
+        System.out.println("入口节点= " + entryNodeOfLoop.value);
     }
 
 
@@ -90,6 +102,12 @@ public class SingleLinkListTest {
                 if (pre.next == null) {
                     pre.next = node;
                 }
+
+                // TODO: 2020/8/27 这里进行成环，其他用例要删掉
+                if (i == 9) {// 9 指向 3 成环
+                    node.next = header.next.next.next;
+                }
+
             }
             pre = node;
         }
@@ -257,5 +275,42 @@ public class SingleLinkListTest {
             after = after.next;
         }
         return after;
+    }
+
+
+    /**
+     * 题目：链表中环的入口结点
+     * 参考：https://www.acwing.com/solution/content/741/
+     * https://www.acwing.com/solution/content/7475/
+     * <p>
+     * 思路 ：
+     * 1. 第一次相遇时 快节点 走了 慢节点的 两倍。
+     * 2. 环的周长是 x + y (参考 https://www.acwing.com/solution/content/741/ 中图)
+     *
+     * 如下是我按照 思路写的 代码，和 参考答案不一样
+     */
+    private static Node entryNodeOfLoop(Node head) {
+
+        Node fast = head;
+        Node slow = head;
+
+
+        while (slow.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (fast == slow) {
+                slow = head;
+                break;
+            }
+        }
+
+        while (slow != fast) {
+            slow = slow.next;
+            fast=fast.next;
+        }
+
+        return slow;
+
     }
 }
