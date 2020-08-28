@@ -11,11 +11,11 @@ public class SingleLinkListTest {
 
 
         //测试翻转
-//        Node node = craeteLinkList(1);
-//        iterateLinkList(node);
-//        Node reverseNode = reverseByloop(node);
-//        System.out.println("");
-//        iterateLinkList(reverseNode);
+        Node node = craeteLinkList(1);
+        iterateLinkList(node);
+        Node reverseNode = reverseByloop(node);
+        System.out.println("");
+        iterateLinkList(reverseNode);
 
         //--------------------------
 
@@ -64,16 +64,15 @@ public class SingleLinkListTest {
 //        System.out.println("倒数第K个节点= " + kth.value);
 
 
-        System.out.println("建立了");
 
         //--------------------------
-        //链表中环的入口结点
-        Node node = craeteLinkList(1);
-        //检验成环
-//        iterateLinkList(node);
-
-        Node entryNodeOfLoop = entryNodeOfLoop(node);
-        System.out.println("入口节点= " + entryNodeOfLoop.value);
+//        //链表中环的入口结点
+//        Node node = craeteLinkList(1);
+//        //检验成环
+////        iterateLinkList(node);
+//
+//        Node entryNodeOfLoop = entryNodeOfLoop(node);
+//        System.out.println("入口节点= " + entryNodeOfLoop.value);
     }
 
 
@@ -104,9 +103,9 @@ public class SingleLinkListTest {
                 }
 
                 // TODO: 2020/8/27 这里进行成环，其他用例要删掉
-                if (i == 9) {// 9 指向 3 成环
-                    node.next = header.next.next.next;
-                }
+//                if (i == 9) {// 9 指向 3 成环
+//                    node.next = header.next.next.next;
+//                }
 
             }
             pre = node;
@@ -132,6 +131,12 @@ public class SingleLinkListTest {
 
     /**
      * 链表翻转 - 遍历的方式
+     *
+     * 参考：
+     * https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/solution/fan-zhuan-lian-biao-yi-dong-de-shuang-zhi-zhen-jia/ 中的动图
+     * https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/solution/dong-hua-yan-shi-duo-chong-jie-fa-206-fan-zhuan-li/
+     *
+     * 思路：局部反转，然后在移动 翻转完以后 整个链表的翻转也就完成了
      *
      * @return
      */
