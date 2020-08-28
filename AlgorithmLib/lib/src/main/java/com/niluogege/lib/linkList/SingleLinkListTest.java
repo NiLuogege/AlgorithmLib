@@ -64,7 +64,6 @@ public class SingleLinkListTest {
 //        System.out.println("倒数第K个节点= " + kth.value);
 
 
-
         //--------------------------
 //        //链表中环的入口结点
 //        Node node = craeteLinkList(1);
@@ -131,11 +130,10 @@ public class SingleLinkListTest {
 
     /**
      * 链表翻转 - 遍历的方式
-     *
+     * <p>
      * 参考：
      * https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/solution/fan-zhuan-lian-biao-yi-dong-de-shuang-zhi-zhen-jia/ 中的动图
-     * https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/solution/dong-hua-yan-shi-duo-chong-jie-fa-206-fan-zhuan-li/
-     *
+     * <p>
      * 思路：局部反转，然后在移动 翻转完以后 整个链表的翻转也就完成了
      *
      * @return
@@ -147,27 +145,24 @@ public class SingleLinkListTest {
         }
 
         //前一个节点
-        Node preNode = null;
-        //下一个节点
-        Node nextNode = null;
+        Node pre = header;
+        //当前节点
+        Node cur = null;
 
-        while (header != null) {
-            // 记录下一个节点
-            nextNode = header.next;
+        while (pre != null) {
+            //使用临时遍历 记录下一个节点
+            Node t=pre.next;
 
-            //设置当前节点 的下一个结节 为前一个节点
-            header.next = preNode;
+            //指针翻转
+            pre.next=cur;
 
-            //记录前一个节点为 当前节点
-            preNode = header;
-
-
-            //切换到下一个节点
-            header = nextNode;
-
+            //指针移动
+            cur=pre;
+            //指针移动
+            pre=t;
         }
 
-        return preNode;
+        return cur;
     }
 
 
@@ -291,7 +286,7 @@ public class SingleLinkListTest {
      * 思路 ：
      * 1. 第一次相遇时 快节点 走了 慢节点的 两倍。
      * 2. 环的周长是 x + y (参考 https://www.acwing.com/solution/content/741/ 中图)
-     *
+     * <p>
      * 如下是我按照 思路写的 代码，和 参考答案不一样
      */
     private static Node entryNodeOfLoop(Node head) {
@@ -312,7 +307,7 @@ public class SingleLinkListTest {
 
         while (slow != fast) {
             slow = slow.next;
-            fast=fast.next;
+            fast = fast.next;
         }
 
         return slow;
