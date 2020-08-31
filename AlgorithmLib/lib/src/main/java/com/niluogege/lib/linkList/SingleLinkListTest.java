@@ -11,29 +11,29 @@ public class SingleLinkListTest {
 
 
         //测试翻转
-        Node node = craeteLinkList(1);
-        iterateLinkList(node);
-        Node reverseNode = reverseByloop(node);
-        System.out.println("");
-        iterateLinkList(reverseNode);
+//        Node node = craeteLinkList(1);
+//        iterateLinkList(node);
+//        Node reverseNode = reverseByloop(node);
+//        System.out.println("");
+//        iterateLinkList(reverseNode);
 
         //--------------------------
 
         //测试merge
         // one=02468
-//        Node one = craeteLinkList(2);
-//        iterateLinkList(one);
-//
-//        System.out.println("");
-//
-//        //two=0369
-//        Node two = craeteLinkList(3);
-//        iterateLinkList(two);
-//
-//        System.out.println("");
-//
-//        Node merged = mergeListByRe(one, two);
-//        iterateLinkList(merged);
+        Node one = craeteLinkList(2);
+        iterateLinkList(one);
+
+        System.out.println("");
+
+        //two=0369
+        Node two = craeteLinkList(3);
+        iterateLinkList(two);
+
+        System.out.println("");
+
+        Node merged = mergeListByRe(one, two);
+        iterateLinkList(merged);
 
         //--------------------------
 
@@ -151,15 +151,15 @@ public class SingleLinkListTest {
 
         while (pre != null) {
             //使用临时遍历 记录下一个节点
-            Node t=pre.next;
+            Node t = pre.next;
 
             //指针翻转
-            pre.next=cur;
+            pre.next = cur;
 
             //指针移动
-            cur=pre;
+            cur = pre;
             //指针移动
-            pre=t;
+            pre = t;
         }
 
         return cur;
@@ -168,21 +168,21 @@ public class SingleLinkListTest {
 
     /**
      * 合并两个有序链表 - 递归
+     *
+     * 思路： 每次都去找小的 那个 节点，
      */
     private static Node mergeListByRe(Node one, Node two) {
-        if (one == null) return two;
-        if (two == null) return one;
-
-        Node head = null;
-
-        if (one.value <= two.value) {
-            head = one;
-            head.next = mergeListByRe(one.next, two);
+        if (one == null) {
+            return two;
+        } else if (two == null) {
+            return one;
+        } else if (one.value < two.value) {
+            one.next = mergeListByRe(one.next, two);
+            return one;
         } else {
-            head = two;
-            head.next = mergeListByRe(one, two.next);
+            two.next = mergeListByRe(one, two.next);
+            return two;
         }
-        return head;
     }
 
 
