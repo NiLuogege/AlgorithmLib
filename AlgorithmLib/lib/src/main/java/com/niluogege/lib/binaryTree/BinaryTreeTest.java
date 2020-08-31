@@ -20,9 +20,12 @@ public class BinaryTreeTest {
 //        postOrderRe(tree[0]);
 
         //查找下一个点
-        TreeNode tree5 = tree[5];
-        TreeNode treeNode = inorderSuccessor(tree5);
-        System.out.println("tree5= "+tree5.value+" treeNode= "+treeNode.value);
+//        TreeNode tree5 = tree[5];
+//        TreeNode treeNode = inorderSuccessor(tree5);
+//        System.out.println("tree5= "+tree5.value+" treeNode= "+treeNode.value);
+
+        //镜像
+        mirror(tree[0]);
     }
 
     /**
@@ -154,4 +157,32 @@ public class BinaryTreeTest {
         return null;
     }
 
+
+    /**
+     * 题目：操作给定的二叉树，将其变换为源二叉树的镜像
+     * 参考：https://www.nowcoder.com/practice/564f4c26aa584921bc75623e48ca3011?tpId=13&tqId=11171&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking
+     * https://liweiwei1419.github.io/sword-for-offer/27-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E9%95%9C%E5%83%8F/
+     * <p>
+     * 思路：其实就是将二叉树的左右 节点进行交换, 这是使用 前序遍历进行
+     */
+    private static void mirror(TreeNode root) {
+
+        if (root==null){
+            return;
+        }
+
+        //这里对 足有节点进行交换
+        TreeNode temp = root.left;
+        root.left=root.right;
+        root.right=temp;
+
+
+        if (root.left != null)
+            mirror(root.left);
+
+        if (root.right != null)
+            mirror(root.right);
+
+
+    }
 }
