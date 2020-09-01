@@ -167,14 +167,14 @@ public class BinaryTreeTest {
      */
     private static void mirror(TreeNode root) {
 
-        if (root==null){
+        if (root == null) {
             return;
         }
 
         //这里对 足有节点进行交换
         TreeNode temp = root.left;
-        root.left=root.right;
-        root.right=temp;
+        root.left = root.right;
+        root.right = temp;
 
 
         if (root.left != null)
@@ -184,5 +184,34 @@ public class BinaryTreeTest {
             mirror(root.right);
 
 
+    }
+
+
+    /**
+     * 题目：判断一棵二叉树是不是对称的
+     * 参考：题目看：https://www.acwing.com/problem/content/description/38/
+     * 题解看：https://liweiwei1419.github.io/sword-for-offer/28-%E5%AF%B9%E7%A7%B0%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91/
+     * <p>
+     * 思路：使用递归判断，左子树的左孩子等于右子树的右孩子 切 左子树的右孩子等于右子树的左孩子，并且值相等
+     */
+    boolean isSymmetrical(TreeNode pRoot) {
+
+        if (pRoot == null) {
+            return true;
+        }
+
+        return isCommon(pRoot.left, pRoot.right);
+    }
+
+    private boolean isCommon(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
+            return true;
+        }
+
+        if (left != null && right != null) {
+            return left.value == right.value && isCommon(left.right, right.left) && isCommon(left.left, right.right);
+        }
+
+        return false;
     }
 }
