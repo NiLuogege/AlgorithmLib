@@ -1,5 +1,6 @@
 package com.niluogege.lib.array;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -33,8 +34,11 @@ public class TwoDimensionaArrayTest {
 //        System.out.println(hasPath);
 
         // 机器人路径
-        int count = new TwoDimensionaArrayTest().movingCount(2, 3, 1);
-        System.out.println("count= "+count);
+//        int count = new TwoDimensionaArrayTest().movingCount(2, 3, 1);
+//        System.out.println("count= " + count);
+
+        ArrayList<Integer> integers = printMatrix(orderlyTDArray);
+        System.out.println("遍历： " + integers.toString());
     }
 
 
@@ -217,9 +221,8 @@ public class TwoDimensionaArrayTest {
     }
 
     /**
-     *
-     * @param i 横向索引
-     * @param j 纵向索引
+     * @param i  横向索引
+     * @param j  纵向索引
      * @param si 横向数位和
      * @param sj 纵向数位和
      * @return
@@ -235,6 +238,67 @@ public class TwoDimensionaArrayTest {
         int jNext = (j + 1) % 10 != 0 ? sj + 1 : sj - 8;
 
         return 1 + dfs(i + 1, j, iNext, sj) + dfs(i, j + 1, si, jNext);
+    }
+
+
+    /**
+     * 题目：输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字。
+     * 参考：https://www.nowcoder.com/practice/9b4c81a02cd34f76be2659fa0d54342a?tpId=13&tqId=11172&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking
+     * <p>
+     * 思路：使用 up,left,down,right 四个变量 不断缩进 遍历范围
+     */
+    private static ArrayList<Integer> printMatrix(int[][] matrix) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return list;
+        }
+        int up = 0;
+        int down = matrix.length - 1;
+        int left = 0;
+        int right = matrix[0].length - 1;
+        while (true) {
+            // 最上面一行
+            for (int col = left; col <= right; col++) {
+                list.add(matrix[up][col]);
+            }
+            // 向下逼近
+            up++;
+            // 判断是否越界
+            if (up > down) {
+                break;
+            }
+            // 最右边一行
+            for (int row = up; row <= down; row++) {
+                list.add(matrix[row][right]);
+            }
+            // 向左逼近
+            right--;
+            // 判断是否越界
+            if (left > right) {
+                break;
+            }
+            // 最下面一行
+            for (int col = right; col >= left; col--) {
+                list.add(matrix[down][col]);
+            }
+            // 向上逼近
+            down--;
+            // 判断是否越界
+            if (up > down) {
+                break;
+            }
+            // 最左边一行
+            for (int row = down; row >= up; row--) {
+                list.add(matrix[row][left]);
+            }
+            // 向右逼近
+            left++;
+            // 判断是否越界
+            if (left > right) {
+                break;
+            }
+        }
+        return list;
     }
 
 
