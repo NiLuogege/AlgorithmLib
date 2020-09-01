@@ -194,7 +194,7 @@ public class BinaryTreeTest {
      * <p>
      * 思路：使用递归判断，左子树的左孩子等于右子树的右孩子 切 左子树的右孩子等于右子树的左孩子，并且值相等
      */
-    boolean isSymmetrical(TreeNode pRoot) {
+    private static boolean isSymmetrical(TreeNode pRoot) {
 
         if (pRoot == null) {
             return true;
@@ -203,7 +203,7 @@ public class BinaryTreeTest {
         return isCommon(pRoot.left, pRoot.right);
     }
 
-    private boolean isCommon(TreeNode left, TreeNode right) {
+    private static boolean isCommon(TreeNode left, TreeNode right) {
         if (left == null && right == null) {
             return true;
         }
