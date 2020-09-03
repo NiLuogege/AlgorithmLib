@@ -1,6 +1,11 @@
 package com.niluogege.lib.binaryTree;
 
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 /**
  * 二叉树
  */
@@ -25,7 +30,20 @@ public class BinaryTreeTest {
 //        System.out.println("tree5= "+tree5.value+" treeNode= "+treeNode.value);
 
         //镜像
-        mirror(tree[0]);
+//        mirror(tree[0]);
+
+        //从上往下打印二叉树
+//        int[] ints = levelOrder(tree[0]);
+//        for (int anInt : ints) {
+//            System.out.println(anInt);
+//        }
+
+
+        //把二叉树打印成多行
+        List<List<Integer>> lists = levelOrder2(tree[0]);
+        for (List<Integer> list : lists) {
+            System.out.println(list.toString());
+        }
     }
 
     /**
@@ -78,7 +96,7 @@ public class BinaryTreeTest {
      */
     private static void preOrderRe(TreeNode rootNode) {
         if (rootNode != null) {
-            System.out.print(rootNode.value);
+            System.out.print(rootNode.val);
             if (rootNode.left != null) {
                 preOrderRe(rootNode.left);
             }
@@ -100,7 +118,7 @@ public class BinaryTreeTest {
             if (rootNode.left != null) {
                 midOrderRe(rootNode.left);
             }
-            System.out.print(rootNode.value);
+            System.out.print(rootNode.val);
 
             if (rootNode.right != null) {
                 midOrderRe(rootNode.right);
@@ -123,7 +141,7 @@ public class BinaryTreeTest {
                 postOrderRe(rootNode.right);
             }
 
-            System.out.print(rootNode.value);
+            System.out.print(rootNode.val);
         }
     }
 
@@ -209,9 +227,77 @@ public class BinaryTreeTest {
         }
 
         if (left != null && right != null) {
-            return left.value == right.value && isCommon(left.right, right.left) && isCommon(left.left, right.right);
+            return left.val == right.val && isCommon(left.right, right.left) && isCommon(left.left, right.right);
         }
 
         return false;
     }
+
+
+    /**
+     * 题目：从上往下打印二叉树
+     * 参考：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/solution/mian-shi-ti-32-i-cong-shang-dao-xia-da-yin-er-ch-4/
+     * 思路：
+     * 1.题目要求的二叉树的 从上至下 打印（即按层打印），又称为二叉树的 广度优先搜索（BFS）。
+     * 2. BFS 通常借助 队列 的先入先出特性来实现。
+     */
+    private static int[] levelOrder(final TreeNode root) {
+        if (root == null) return new int[]{};
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>() {{
+            add(root);
+        }};
+
+        ArrayList<Integer> ans = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            ans.add(node.val);
+            if (node.left != null) queue.add(node.left);
+            if (node.right != null) queue.add(node.right);
+        }
+
+        int[] res = new int[ans.size()];
+        for (int i = 0; i < ans.size(); i++) {
+            res[i] = ans.get(i);
+        }
+
+        return res;
+
+    }
+
+    /**
+     * 题目：把二叉树打印成多行
+     * 参考：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-ii-lcof/solution/mian-shi-ti-32-ii-cong-shang-dao-xia-da-yin-er-c-5/
+     * 思路：整体思路和上面一题差不多，只不过是每次打印之前将 队列中的所有元素都拿出来
+     */
+    public static List<List<Integer>> levelOrder2(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+
+        List<List<Integer>> res = new ArrayList<>();
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            ArrayList<Integer> ans = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                ans.add(node.val);
+
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+
+            }
+            res.add(ans);
+        }
+
+
+        return res;
+    }
 }
+

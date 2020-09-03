@@ -4,12 +4,12 @@ package com.niluogege.lib.binaryTree;
  * 树节点
  */
 public class TreeNode {
-    int value;
+    int val;
     TreeNode left;
     TreeNode right;
     TreeNode father;
 
     public TreeNode(int value) {
-        this.value = value;
+        this.val = value;
     }
 }
