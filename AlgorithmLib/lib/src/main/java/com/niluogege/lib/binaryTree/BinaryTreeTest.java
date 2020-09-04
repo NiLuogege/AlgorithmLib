@@ -47,10 +47,25 @@ public class BinaryTreeTest {
 //        }
 
         //把二叉树 以Z字型 打印成多行
-        List<List<Integer>> lists = levelOrder3(tree[0]);
-        for (List<Integer> list : lists) {
-            System.out.println(list.toString());
-        }
+//        List<List<Integer>> lists = levelOrder3(tree[0]);
+//        for (List<Integer> list : lists) {
+//            System.out.println(list.toString());
+//        }
+
+        //二叉搜索树的后序遍历序列
+        int[] searchTree = createSearchTree();
+        boolean postorder = verifyPostorder(searchTree);
+        System.out.println("postorder= "+postorder);
+    }
+
+
+    /**
+     * 返回一个二叉搜索树
+     *
+     * @return
+     */
+    private static int[] createSearchTree() {
+        return new int[]{1,3,2,6,5};
     }
 
     /**
@@ -351,6 +366,28 @@ public class BinaryTreeTest {
 
 
         return res;
+    }
+
+
+    /**
+     * 题目：二叉搜索树的后序遍历序列
+     * 参考：https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof/solution/mian-shi-ti-33-er-cha-sou-suo-shu-de-hou-xu-bian-6/
+     * 思路：
+     * 1. 二叉搜索树定义： 左子树中所有节点的值 << 根节点的值；右子树中所有节点的值 >> 根节点的值；其左、右子树也分别为二叉搜索树。
+     * 2. 根节点就是 数组的最后一位
+     */
+    private static boolean verifyPostorder(int[] postorder) {
+
+        return recur(postorder, 0, postorder.length - 1);
+    }
+
+    private static boolean recur(int[] postorder, int i, int j) {
+        if (i >= j) return true;
+        int p = i;
+        while (postorder[p] < postorder[j]) p++;
+        int m = p; //m是第一个大于根的节点 ，也就是左右子树的界限
+        while (postorder[p] > postorder[j]) p++;
+        return p == j && recur(postorder, i, m - 1) && recur(postorder, m, j - 1);
     }
 }
 
