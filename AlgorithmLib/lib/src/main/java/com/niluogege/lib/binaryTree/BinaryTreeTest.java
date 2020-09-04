@@ -2,6 +2,7 @@ package com.niluogege.lib.binaryTree;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -40,7 +41,13 @@ public class BinaryTreeTest {
 
 
         //把二叉树打印成多行
-        List<List<Integer>> lists = levelOrder2(tree[0]);
+//        List<List<Integer>> lists = levelOrder2(tree[0]);
+//        for (List<Integer> list : lists) {
+//            System.out.println(list.toString());
+//        }
+
+        //把二叉树 以Z字型 打印成多行
+        List<List<Integer>> lists = levelOrder3(tree[0]);
         for (List<Integer> list : lists) {
             System.out.println(list.toString());
         }
@@ -293,6 +300,52 @@ public class BinaryTreeTest {
                 }
 
             }
+            res.add(ans);
+        }
+
+
+        return res;
+    }
+
+
+    /**
+     * 题目：把二叉树 以Z字型 打印成多行
+     * 参考：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-iii-lcof/solution/mian-shi-ti-32-iii-cong-shang-dao-xia-da-yin-er--3/
+     * 思路：
+     * 1. 一样上面一题的思路只需要在插入时 对奇数行和偶数行做不同操作就可以
+     * 2. 使用 LinkedList 既可以插入头部又可以插入尾部的 特性，来替代 ArrayList
+     */
+    public static List<List<Integer>> levelOrder3(TreeNode root) {
+        if (root == null) return new ArrayList<>();
+
+
+        List<List<Integer>> res = new ArrayList<>();
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            LinkedList<Integer> ans = new LinkedList<>();
+
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+
+                if (res.size() % 2 == 0) {
+                    ans.addLast(node.val);
+                } else {
+                    ans.addFirst(node.val);
+                }
+
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+
+            }
+
             res.add(ans);
         }
 
