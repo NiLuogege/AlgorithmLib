@@ -53,9 +53,13 @@ public class BinaryTreeTest {
 //        }
 
         //二叉搜索树的后序遍历序列
-        int[] searchTree = createSearchTree();
-        boolean postorder = verifyPostorder(searchTree);
-        System.out.println("postorder= "+postorder);
+//        int[] searchTree = createSearchTree();
+//        boolean postorder = verifyPostorder(searchTree);
+//        System.out.println("postorder= " + postorder);
+
+        //二叉树中和为某一值的路径
+        List<List<Integer>> lists = pathSum(createTree()[0], 11);
+        System.out.println("lists= "+lists.toString());
     }
 
 
@@ -65,7 +69,7 @@ public class BinaryTreeTest {
      * @return
      */
     private static int[] createSearchTree() {
-        return new int[]{1,3,2,6,5};
+        return new int[]{1, 3, 2, 6, 5};
     }
 
     /**
@@ -388,6 +392,38 @@ public class BinaryTreeTest {
         int m = p; //m是第一个大于根的节点 ，也就是左右子树的界限
         while (postorder[p] > postorder[j]) p++;
         return p == j && recur(postorder, i, m - 1) && recur(postorder, m, j - 1);
+    }
+
+
+    static LinkedList<List<Integer>> res = new LinkedList<>();
+    static LinkedList<Integer> path = new LinkedList<>();
+
+    /**
+     * 题目：二叉树中和为某一值的路径
+     * 参考：https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/solution/mian-shi-ti-34-er-cha-shu-zhong-he-wei-mou-yi-zh-5/
+     * 思路：
+     * 1. 使用回溯思想
+     */
+    private static List<List<Integer>> pathSum(TreeNode root, int sum) {
+        recur(root, sum);
+        return res;
+    }
+
+    private static void recur(TreeNode root, int tar) {
+        if (root == null) return;
+
+        path.add(root.val);
+
+        tar -= root.val;
+
+        if (tar == 0 && root.right == null && root.left == null) {//因为要从 根节点 一直到 叶子节点所以 要判断 root.right==null&&root.left==null
+            res.add(new LinkedList<Integer>(path));
+        }
+
+        recur(root.left, tar);
+        recur(root.right, tar);
+
+        path.removeLast();//在向上回溯前，需要将当前节点删除掉
     }
 }
 
