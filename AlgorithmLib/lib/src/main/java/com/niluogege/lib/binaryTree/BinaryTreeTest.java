@@ -487,11 +487,11 @@ public class BinaryTreeTest {
         if (pre == null) {
             head = cur;//找到最小的节点，记录为 头结点
         } else {
-            pre.right = cur;
+            pre.right = cur; //前面节点的 又节点 等于 当前节点
         }
 
-        cur.left = pre;
-        pre = cur;
+        cur.left = pre; //当前节点的左节点 是 前面节点
+        pre = cur;// 重新赋值 pre
 
         dfs(cur.right);
 
