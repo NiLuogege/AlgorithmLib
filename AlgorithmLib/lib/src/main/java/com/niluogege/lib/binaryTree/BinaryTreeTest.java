@@ -61,10 +61,17 @@ public class BinaryTreeTest {
 //        List<List<Integer>> lists = pathSum(createTree()[0], 11);
 //        System.out.println("lists= " + lists.toString());
 
+        //二叉搜索树 转为 双向链表
+//        TreeNode searchTree = createSearchTree2();
+//        TreeNode node = treeToDoublyList(searchTree);
+
+
+        //序列化和反序列化二叉树
         TreeNode searchTree = createSearchTree2();
-//        midOrderRe(searchTree);
-        TreeNode node = treeToDoublyList(searchTree);
-//        midOrderRe(node);
+        String serialize = serialize(searchTree);
+        System.out.println("serialize= "+serialize);
+        TreeNode deserialize = deserialize(serialize);
+        midOrderRe(deserialize);
     }
 
 
@@ -293,7 +300,7 @@ public class BinaryTreeTest {
 
 
     /**
-     * 题目：从上往下打印二叉树
+     * 题目：从上往下打印二叉树  （层序遍历）
      * 参考：https://leetcode-cn.com/problems/cong-shang-dao-xia-da-yin-er-cha-shu-lcof/solution/mian-shi-ti-32-i-cong-shang-dao-xia-da-yin-er-ch-4/
      * 思路：
      * 1.题目要求的二叉树的 从上至下 打印（即按层打印），又称为二叉树的 广度优先搜索（BFS）。
@@ -495,6 +502,62 @@ public class BinaryTreeTest {
 
         dfs(cur.right);
 
+    }
+
+
+    /**
+     * 题目：序列化二叉树
+     * 参考：https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/solution/mian-shi-ti-37-xu-lie-hua-er-cha-shu-ceng-xu-bian-/
+     * 思路：使用层序遍历 将每层都装入 StringBuilder
+     */
+    private static String serialize(TreeNode root) {
+        if (root == null) return "[]";
+        StringBuilder res = new StringBuilder("[");
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node != null) {
+                res.append(node.val).append(",");
+                queue.add(node.left);
+                queue.add(node.right);
+            } else {
+                res.append("null,");
+            }
+        }
+        res.deleteCharAt(res.length() - 1);//删除多余的 逗号
+        res.append("]");
+        return res.toString();
+    }
+
+
+    /**
+     * 题目：反序列化二叉树
+     * 参考：https://leetcode-cn.com/problems/xu-lie-hua-er-cha-shu-lcof/solution/mian-shi-ti-37-xu-lie-hua-er-cha-shu-ceng-xu-bian-/
+     */
+    private static TreeNode deserialize(String data) {
+        if (data.equals("[]")) return null;
+        String[] vals = data.substring(1, data.length() - 1).split(",");//获取所有节点
+        TreeNode root = new TreeNode(Integer.parseInt(vals[0]));//根节点
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        int i = 1;
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (!vals[i].equals("null")) {//添加左节点
+                node.left = new TreeNode(Integer.parseInt(vals[i]));
+                queue.add(node.left);
+            }
+            i++;
+            if (!vals[i].equals("null")) {//添加右节点
+                node.right = new TreeNode(Integer.parseInt(vals[i]));
+                queue.add(node.right);
+            }
+            i++;
+        }
+        return root;
     }
 }
 
