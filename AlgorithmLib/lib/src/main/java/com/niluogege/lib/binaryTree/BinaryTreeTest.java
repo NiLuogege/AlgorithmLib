@@ -58,8 +58,13 @@ public class BinaryTreeTest {
 //        System.out.println("postorder= " + postorder);
 
         //二叉树中和为某一值的路径
-        List<List<Integer>> lists = pathSum(createTree()[0], 11);
-        System.out.println("lists= "+lists.toString());
+//        List<List<Integer>> lists = pathSum(createTree()[0], 11);
+//        System.out.println("lists= " + lists.toString());
+
+        TreeNode searchTree = createSearchTree2();
+//        midOrderRe(searchTree);
+        TreeNode node = treeToDoublyList(searchTree);
+//        midOrderRe(node);
     }
 
 
@@ -71,6 +76,33 @@ public class BinaryTreeTest {
     private static int[] createSearchTree() {
         return new int[]{1, 3, 2, 6, 5};
     }
+
+    /**
+     * 返回一个二叉搜索树
+     *
+     * @return
+     */
+    private static TreeNode createSearchTree2() {
+
+        TreeNode node1 = new TreeNode(1);
+        TreeNode node2 = new TreeNode(2);
+        TreeNode node3 = new TreeNode(3);
+        TreeNode node4 = new TreeNode(4);
+        TreeNode node5 = new TreeNode(5);
+
+        node4.left = node2;
+        node4.right = node5;
+        node2.left = node1;
+        node2.right = node3;
+
+        node1.father = node2;
+        node3.father = node2;
+        node2.father = node4;
+        node5.father = node4;
+
+        return node4;
+    }
+
 
     /**
      * 创建一个 完全二叉树 树的形状如下图
@@ -424,6 +456,45 @@ public class BinaryTreeTest {
         recur(root.right, tar);
 
         path.removeLast();//在向上回溯前，需要将当前节点删除掉
+    }
+
+    private static TreeNode pre, head;
+
+    /**
+     * 题目：二叉搜索树 转为 双向链表
+     * 参考：https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/solution/mian-shi-ti-36-er-cha-sou-suo-shu-yu-shuang-xian-5/
+     * 思路：
+     * 1. 中序遍历保证 顺序
+     * 2. 中序遍历过程中修改引用指向
+     */
+    private static TreeNode treeToDoublyList(TreeNode root) {
+
+        if (root == null) return null;
+
+        dfs(root);
+
+        head.left = pre;
+        pre.right = head;
+
+        return head;
+    }
+
+    private static void dfs(TreeNode cur) {
+        if (cur == null) return;
+
+        dfs(cur.left);
+
+        if (pre == null) {
+            head = cur;//找到最小的节点，记录为 头结点
+        } else {
+            pre.right = cur;
+        }
+
+        cur.left = pre;
+        pre = cur;
+
+        dfs(cur.right);
+
     }
 }
 
