@@ -4,6 +4,9 @@ package com.niluogege.lib.string;
 import com.niluogege.lib.utils.StringUtils;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class StringTest {
@@ -16,8 +19,14 @@ public class StringTest {
 //        System.out.println("match= " + match);
 
 
-        boolean number = isNumber("+100");
-        System.out.println("number= "+number);
+//        boolean number = isNumber("+100");
+//        System.out.println("number= " + number);
+
+        //字符串的排列
+        String[] permutation = permutation("abc");
+        for (String s : permutation) {
+        System.out.println(s);
+        }
     }
 
 
@@ -229,5 +238,42 @@ public class StringTest {
         } else {
             return CharType.CHAR_ILLEGAL;
         }
+    }
+
+
+    static List<String> res = new LinkedList<>();
+    static char[] c;
+
+    /**
+     * 题目：字符串的排列
+     * 参考：https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/solution/mian-shi-ti-38-zi-fu-chuan-de-pai-lie-hui-su-fa-by/
+     * 思路：深度优先算法 + 剪枝
+     */
+    private static String[] permutation(String s) {
+        c = s.toCharArray();
+        dfs(0);
+        return res.toArray(new String[res.size()]);
+    }
+
+    private static void dfs(int x) {
+        if (x == c.length - 1) {
+            res.add(String.valueOf(c));//最后一位
+            return;
+        }
+
+        HashSet<Character> set = new HashSet<>();
+        for (int i = x; i < c.length; i++) {
+            if (set.contains(c[i])) continue;//重复，所以要剪枝
+            set.add(c[i]);
+            swip(i, x);
+            dfs(x + 1);//开启固定第 x+1位字符
+            swip(i, x);//恢复交换
+        }
+    }
+
+    private static void swip(int a, int b) {
+        char temp = c[a];
+        c[a] = c[b];
+        c[b] = temp;
     }
 }
