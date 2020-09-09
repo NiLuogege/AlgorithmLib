@@ -1,5 +1,9 @@
 package com.niluogege.lib.array;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
+
 public class ArrayTest {
     public static void main(String[] args) {
 //        int[] nums = new int[]{3, 4, 5, 6, 7, 8, 9, 1, 2};
@@ -7,12 +11,17 @@ public class ArrayTest {
 //        System.out.println("i= " + i);
 
 
-        int[] nums = new int[]{1, 2, 3, 4, 5};
-        reOrderArray(nums);
-        for (int num : nums) {
+//        int[] nums = new int[]{1, 2, 3, 4, 5};
+//        reOrderArray(nums);
+//        for (int num : nums) {
+//
+//            System.out.print("reOrderArray= " + num);
+//        }
 
-            System.out.print("reOrderArray= " + num);
-        }
+
+//        int i = majorityElement(new int[]{1, 2, 3, 2, 2, 2, 2, 5, 4, 2});
+        int i = majorityElement2(new int[]{3, 2,3});
+        System.out.println("zhiwei = "+i);
     }
 
 
@@ -86,5 +95,46 @@ public class ArrayTest {
             array[j] = buff[j];
             j--;
         }
+    }
+
+
+    static HashMap<Integer, Integer> maps = new HashMap<>();
+
+    /**
+     * 题目：数组中出现次数超过一半的数字 - 我自己的解法
+     * 思路：最简单的思路，下面有 比人家的解法
+     */
+    private static int majorityElement(int[] nums) {
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            if (maps.containsKey(num)) {
+                maps.put(num, maps.get(num) + 1);
+            } else {
+                maps.put(num, 1);
+            }
+        }
+
+        for (Map.Entry<Integer, Integer> entry : maps.entrySet()) {
+            Integer value = entry.getValue();
+            if (value > nums.length / 2) {
+                return entry.getKey();
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * 题目：数组中出现次数超过一半的数字 - 别人家的解法
+     * 参考：https://leetcode-cn.com/problems/shu-zu-zhong-chu-xian-ci-shu-chao-guo-yi-ban-de-shu-zi-lcof/solution/mian-shi-ti-39-shu-zu-zhong-chu-xian-ci-shu-chao-3/
+     * 思路：摩尔投票法
+     */
+    private static int majorityElement2(int[] nums) {
+        int x = 0, votes = 0;
+        for(int num : nums){
+            if(votes == 0) x = num;
+            votes += num == x ? 1 : -1;
+        }
+        return x;
     }
 }
