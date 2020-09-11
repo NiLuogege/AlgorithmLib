@@ -2,7 +2,6 @@ package com.niluogege.lib.array;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeSet;
 
 public class ArrayTest {
     public static void main(String[] args) {
@@ -20,8 +19,12 @@ public class ArrayTest {
 
 
 //        int i = majorityElement(new int[]{1, 2, 3, 2, 2, 2, 2, 5, 4, 2});
-        int i = majorityElement2(new int[]{3, 2,3});
-        System.out.println("zhiwei = "+i);
+//        int i = majorityElement2(new int[]{3, 2, 3});
+//        System.out.println("zhiwei = " + i);
+
+        //连续子数组的最大和
+        int aaaa = maxSubArray(new int[]{1, -2, 3, 10, -4, 7, 2, -5});
+        System.out.println("aaaa= " + aaaa);
     }
 
 
@@ -131,10 +134,58 @@ public class ArrayTest {
      */
     private static int majorityElement2(int[] nums) {
         int x = 0, votes = 0;
-        for(int num : nums){
-            if(votes == 0) x = num;
+        for (int num : nums) {
+            if (votes == 0) x = num;
             votes += num == x ? 1 : -1;
         }
         return x;
+    }
+
+
+    /**
+     * 题目：连续子数组的最大和-自己的解法
+     * 但是时间复杂度是 O(nLogn),下面是标准答案
+     */
+    private static int maxSubArray(int[] nums) {
+        if (nums.length == 1) return nums[0];
+        int big = nums[0];
+
+        int step = 1;
+        while (step <= nums.length) {
+            for (int i = 0; i < nums.length; i++) {
+                int sum = recur(nums, i, i + step);
+                if (big < sum) {
+                    big = sum;
+                }
+            }
+            step++;
+        }
+
+        return big;
+
+    }
+
+    private static int recur(int[] arr, int start, int end) {
+        if (end > arr.length) end = arr.length;
+        int temp = 0;
+        for (int i = start; i < end; i++) {
+            temp += arr[i];
+        }
+        return temp;
+    }
+
+    /**
+     * 题目：连续子数组的最大和-自己的解法
+     * 参考：https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/solution/mian-shi-ti-42-lian-xu-zi-shu-zu-de-zui-da-he-do-2/
+     * 思路：使用 动态规划可以大大降低 算法的时间复杂度
+     * 上面是自己的 算法
+     */
+    private static int maxSubArray2(int[] nums) {
+        int res = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            nums[i] += Math.max(nums[i - 1], 0);
+            res = Math.max(res, nums[i]);
+        }
+        return res;
     }
 }
