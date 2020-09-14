@@ -1,5 +1,12 @@
 apply plugin: 'java-library'
 
+//配置主程序入口
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.niluogege.lib.test.ZhierEnter'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -7,3 +14,13 @@ dependencies {
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
+
+
+test(){
+    def userName = "java -jar E:\\111work\\code\\code_me\\myGitHub\\AlgorithmLib\\AlgorithmLib\\lib\\build\\libs\\lib.jar version=8.89099"
+    def gitProc = userName.execute()
+    gitProc.waitFor()
+    def gitUserName = gitProc.in.text
+
+    println("xhjTask-> git user name ${gitUserName}")
+}
