@@ -9,9 +9,12 @@ import java.util.Arrays;
  */
 public class SortTest {
     public static void main(String[] args) {
-        int[] arr = createHeapArr();
-        System.out.println("原始: " + Arrays.toString(arr));
-        heapSort(arr);
+//        int[] arr = createHeapArr();
+//        System.out.println("原始: " + Arrays.toString(arr));
+//        heapSort(arr);
+        int[] arr = new int[]{7, 5, 19, 8, 4, 1, 20, 13, 16};
+        bubbleSort(arr);
+        System.out.println(Arrays.toString(arr));
     }
 
 
@@ -70,6 +73,32 @@ public class SortTest {
                     a[maxPos] = temp;
                 }
                 System.out.println("堆化: i= " + i + " " + Arrays.toString(a));
+            }
+        }
+    }
+
+    /**
+     * 冒泡排序
+     * <p>
+     * ①. 比较相邻的元素。如果第一个比第二个大，就交换他们两个。
+     * ②. 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。
+     * ③. 针对所有的元素重复以上的步骤，除了最后一个。
+     * ④. 持续每次对越来越少的元素重复上面的步骤①~③，直到没有任何一对数字需要比较。
+     *
+     * @param arr 待排序数组
+     */
+    private static void bubbleSort(int[] arr) {
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length - i; j++) {
+                if (j + 1 < arr.length) {
+                    if (arr[j] > arr[j + 1]) {
+                        int temp;
+                        temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
             }
         }
     }
