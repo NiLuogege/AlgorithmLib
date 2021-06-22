@@ -13,7 +13,9 @@ public class SortTest {
 //        System.out.println("原始: " + Arrays.toString(arr));
 //        heapSort(arr);
         int[] arr = new int[]{7, 5, 19, 8, 4, 1, 20, 13, 16};
-        bubbleSort(arr);
+//        bubbleSort(arr);
+
+        quickSort(arr, 0, arr.length - 1);
         System.out.println(Arrays.toString(arr));
     }
 
@@ -102,4 +104,44 @@ public class SortTest {
             }
         }
     }
+
+
+    private static void quickSort(int[] arr, int low, int high) {
+        int i = low;
+        int j = high;
+
+        if (i > j) {
+            return;
+        }
+
+        int k = arr[i];
+
+        while (i < j) {
+            while (i < j && arr[j] > k) {//找出最小值
+                j--;
+            }
+
+            while (i<j && arr[i]<=k){//找出最大值
+                i++;
+            }
+
+            if (i<j){
+                int swap=arr[i];
+                arr[i]=arr[j];
+                arr[j]=swap;
+
+            }
+        }
+
+        k=arr[i];
+        arr[i]=arr[low];
+        arr[low]=k;
+
+        //对左边进行排序,递归算法
+        quickSort(arr, low, i - 1);
+        //对右边进行排序
+        quickSort(arr, i + 1, high);
+    }
+
+
 }
