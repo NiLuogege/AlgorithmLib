@@ -6,6 +6,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 编写程序实现,子线程循环3次,接着主线程循环5次,接着再子线程循环3次,主线程循环5次,如此反复,循环3次.
+ *
+ * 参考：https://blog.csdn.net/yuzongtao/article/details/83378538
  */
 public class ThreadTest1 {
 
