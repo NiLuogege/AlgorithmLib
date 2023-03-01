@@ -103,6 +103,8 @@ public class ThreadTest1 {
 
     /**
      * 使用 ReentrantLock 配合 Condition 实现
+     * <p>
+     * 代码逻辑和Synchronized一致 ，只不过将 阻塞和唤醒的代码 从 Object的 wait 和 notify  改成了 Condition 的 await 和 signal
      */
     private static void useReentrantLock() {
         ReentrantLockWorker worker = new ReentrantLockWorker();
