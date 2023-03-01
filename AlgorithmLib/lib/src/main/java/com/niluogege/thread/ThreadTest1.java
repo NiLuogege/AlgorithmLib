@@ -25,7 +25,7 @@ public class ThreadTest1 {
      * 下来浸入 useSynchronized() 中的第一层 for循环
      */
     private static void useSynchronized() {
-        Worker worker = new Worker();
+        SynchronizedWorker worker = new SynchronizedWorker();
 
         new Thread(new Runnable() {
             @Override
@@ -42,7 +42,7 @@ public class ThreadTest1 {
     }
 
 
-    static class Worker {
+    static class SynchronizedWorker {
         //因为是在唤醒其他线程之前 重新赋值的，也就是不存在 并发情况这里可以不添加 volatile 关键字
         private boolean flag = false;
 
