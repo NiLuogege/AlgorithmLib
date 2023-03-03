@@ -1,3 +1,4 @@
 rootProject.name='AlgorithmLib'
 include ':app'
 include ':lib'
+include ':mykotlin'
