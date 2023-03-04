@@ -16,9 +16,10 @@ public class 最长回文子串 {
         System.out.println(r);
     }
 
+
     /**
      * 具体解法：https://leetcode.cn/problems/longest-palindromic-substring/solution/zhong-xin-kuo-san-fa-he-dong-tai-gui-hua-by-reedfa/
-     *
+     * <p>
      * 核心思想：
      * 1 长的回文字符串是由短的回文字符串组成的，如果中间是回文字符串，两边也相对，那么长的肯定也是回文字符串
      * 2 用dp将 短的回文字符串记录下来，方便后面长的回文字符串的计算
