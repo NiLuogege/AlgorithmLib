@@ -25,18 +25,49 @@ public class 旋转链表 {
         LinklistUtils.iterateLinkList(n1);
         System.out.println("");
 
+        //测试 链表翻转
+//        LinklistUtils.iterateLinkList(reverseByloop(n1));
 //        LinklistUtils.iterateLinkList(rotateRight_me(n1, 2));
-//        LinklistUtils.iterateLinkList(rotateRight_me(n1, 2));
-        LinklistUtils.iterateLinkList(reverseByloop(n1));
+        LinklistUtils.iterateLinkList(rotateRight(n1, 2));
     }
 
     public static ListNode rotateRight(ListNode head, int k) {
-return null;
+
+        if (k == 0 || head == null || head.next == null) {
+            return head;
+        }
+
+        int len = 1;
+
+        //这个 while 走完以后 iter记录的是最后一个 节点
+        ListNode iter = head;
+        while (iter.next != null) {
+            len++;
+            iter = iter.next;
+        }
+
+
+        int add = len - k % len;
+        if (add == len) {
+            return head;
+        }
+
+        //成环
+        iter.next = head;
+
+        while (add-- > 0) {
+            iter = iter.next;
+        }
+
+        //记录结果 并 将环进行断开
+        ListNode res = iter.next;
+        iter.next = null;
+        return res;
     }
 
 
     /**
-     * 我这种方式没有考虑到 向右挪的的位数 大于链表长度的情况
+     * 我这种方式没有考虑到 向右挪的的位数 大于链表长度的情况 ，也没有考虑转几圈的情况
      */
     public static ListNode rotateRight_me(ListNode head, int k) {
 
@@ -94,7 +125,7 @@ return null;
             cur.next = pre;
 
             //指针挪动
-            pre=cur;
+            pre = cur;
             //指针挪动
             cur = t;
         }
