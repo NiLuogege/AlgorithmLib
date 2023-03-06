@@ -136,6 +136,8 @@ public class SingleLinkListTest {
      * <p>
      * 思路：局部反转，然后在移动 翻转完以后 整个链表的翻转也就完成了
      *
+     * 类似于双指针法， pre表示挪动后的 前节点，cur表示挪动后的 当前阶段
+     *
      * @return
      */
     private static Node reverseByloop(Node header) {

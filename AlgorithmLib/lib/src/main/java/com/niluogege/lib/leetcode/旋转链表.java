@@ -26,11 +26,12 @@ public class 旋转链表 {
         System.out.println("");
 
 //        LinklistUtils.iterateLinkList(rotateRight_me(n1, 2));
-        LinklistUtils.iterateLinkList(rotateRight_me(n1, 2));
+//        LinklistUtils.iterateLinkList(rotateRight_me(n1, 2));
+        LinklistUtils.iterateLinkList(reverseByloop(n1));
     }
 
     public static ListNode rotateRight(ListNode head, int k) {
-
+return null;
     }
 
 
@@ -79,24 +80,26 @@ public class 旋转链表 {
             return header;
         }
 
-        //前一个节点
-        ListNode pre = header;
-        //当前节点
-        ListNode cur = null;
 
-        while (pre != null) {
-            //使用临时遍历 记录下一个节点
-            ListNode t = pre.next;
+        //上一个指针
+        ListNode pre = null;
+        //当前指针
+        ListNode cur = header;
 
-            //指针翻转
-            pre.next = cur;
+        while (cur != null) {
+            //记录下一个点
+            ListNode t = cur.next;
 
-            //指针移动
-            cur = pre;
-            //指针移动
-            pre = t;
+            //翻转
+            cur.next = pre;
+
+            //指针挪动
+            pre=cur;
+            //指针挪动
+            cur = t;
         }
 
-        return cur;
+        //pre 最终就指向的 是原来的最后一个节点，翻转后的第一个节点
+        return pre;
     }
 }
