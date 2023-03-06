@@ -18,6 +18,9 @@ public class 环形链表 {
         System.out.println(hasCycle(node));
     }
 
+    /**
+     * https://leetcode.cn/problems/linked-list-cycle/solution/huan-xing-lian-biao-by-leetcode-solution/
+     */
     public static boolean hasCycle(ListNode head) {
 
         if (head==null) return false;
