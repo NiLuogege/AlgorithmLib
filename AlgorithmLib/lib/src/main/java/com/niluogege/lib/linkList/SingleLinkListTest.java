@@ -1,5 +1,7 @@
 package com.niluogege.lib.linkList;
 
+import com.niluogege.lib.javabean.ListNode;
+
 import java.util.Stack;
 
 /**
@@ -146,25 +148,24 @@ public class SingleLinkListTest {
             return header;
         }
 
-        //前一个节点
-        Node pre = header;
-        //当前节点
-        Node cur = null;
+        //记录前节点
+        Node pre =null;
+        //记录当前节点
+        Node cur= header;
 
-        while (pre != null) {
-            //使用临时遍历 记录下一个节点
-            Node t = pre.next;
-
-            //指针翻转
-            pre.next = cur;
-
-            //指针移动
-            cur = pre;
-            //指针移动
-            pre = t;
+        while (cur!=null){
+            //记录后一个节点
+            Node next = cur.next;
+            //当前节点的下一个改为 前节点
+            cur.next=pre;
+            //前节点 向后移动
+            pre=cur;
+            //当前节点向后移动
+            cur= next;
         }
 
-        return cur;
+        //pre 最终回我头结点
+        return pre;
     }
 
 
