@@ -53,6 +53,7 @@ public class 移掉K位数字 {
             queue.offerLast(c);
         }
 
+        //这是 当k 没有用完的时候，说明 都是按顺序的，所以从后往前删就行了
         if (k != 0) {
             for (int i = 0; i < k; i++) {
                 queue.pollLast();
