@@ -17,6 +17,8 @@ public class 移掉K位数字 {
     }
 
     /**
+     * 要是想知道实现思路的话 可以看我的，不过代码没有别人的优雅
+     *
      * 核心思想：
      * 从高位到低位 ，如果高位的数字大于和它相邻的数字则要干掉， 这样剩下来的就是最小的
      * <p>
@@ -24,7 +26,45 @@ public class 移掉K位数字 {
      * https://leetcode.cn/problems/remove-k-digits/solution/yi-diao-kwei-shu-zi-by-leetcode-solution/
      */
     public static String removeKdigits(String num, int k) {
-        return "";
+
+        LinkedList<Character> queue = new LinkedList<>();
+        int length = num.length();
+        for (int i = 0; i < length; i++) {
+            char c = num.charAt(i);
+            //按顺序取出一个 ,然后判断当前的和队列中最后一个的大小关系，如果 当前的大（低位）没问题，前面的大（高位）则需要把前面的干掉
+            while (!queue.isEmpty()&&k>0&&queue.peekLast()>c){
+                queue.pollLast();
+                k--;
+            }
+
+            //小的加进来
+            queue.offerLast(c);
+        }
+
+        //处理 k 没有用完的情况
+        if (k>0){
+            for (int i = 0; i < k; i++) {
+                queue.pollLast();
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        //是否要找个0 ，一般最前面对的0 是不要的
+        boolean leadingZero =true;
+        while (!queue.isEmpty()){
+            Character c = queue.pollFirst();
+            //这里主要是处理最前面的0
+            if (leadingZero&&c=='0'){
+                continue;
+            }
+
+            leadingZero=false;
+            sb.append(c);
+
+        }
+
+
+        return sb.length() == 0 ? "0" : sb.toString();
     }
 
     /**
