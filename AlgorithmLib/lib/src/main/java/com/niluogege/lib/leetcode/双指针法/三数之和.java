@@ -1,4 +1,4 @@
-package com.niluogege.lib.leetcode;
+package com.niluogege.lib.leetcode.双指针法;
 
 import java.util.ArrayList;
 import java.util.Arrays;

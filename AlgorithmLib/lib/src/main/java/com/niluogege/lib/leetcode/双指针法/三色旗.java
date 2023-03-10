@@ -1,4 +1,4 @@
-package com.niluogege.lib.leetcode;
+package com.niluogege.lib.leetcode.双指针法;
 
 /**
  * 一条绳子挂红白蓝三种颜色的旗子，且排列无序，现用程序把三种旗子同色归类，顺序为蓝-白-红，每次只能交换2面旗子，采用最少步骤完成。
