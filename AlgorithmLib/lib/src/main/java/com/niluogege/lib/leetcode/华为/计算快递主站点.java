@@ -10,7 +10,62 @@ import java.util.Set;
 public class 计算快递主站点 {
 
     public static void main(String[] args) {
-//        Scanner in = new Scanner(System.in);
+        //这个有点儿看不懂
+//        firstMethod();
+
+        secondMethod();
+    }
+
+    private static void secondMethod() {
+        //        Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner("4\n" +
+                "\n" +
+                "1 1 0 0\n" +
+                "\n" +
+                "1 1 0 0\n" +
+                "\n" +
+                "0 0 1 0\n" +
+                "\n" +
+                "0 0 0 1");
+        int n = in.nextInt();
+        int[][] vals = new int[n][n];
+        in.nextLine();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                vals[i][j] = in.nextInt();
+            }
+        }
+        int res = 0;
+        Set<Integer> resSet = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            if (resSet.contains(i)) {
+                continue;
+            }
+            Set<Integer> temp = new HashSet<>();
+            temp.add(i);
+            f(temp, i, vals);
+            resSet.addAll(temp);
+            res++;
+        }
+        System.out.println(res);
+    }
+
+    static void f(Set<Integer> temp, int i, int[][] vals) {
+        for (int j = 0; j < vals.length; j++) {
+            if (temp.contains(j)) {
+                continue;
+            }
+            if (i != j && vals[i][j] == 1) {
+                temp.add(j);//纳入与i点联通的合计
+                f(temp, j, vals);
+            }
+        }
+
+
+    }
+
+    private static void firstMethod() {
+        //        Scanner in = new Scanner(System.in);
         Scanner in = new Scanner("4\n" +
                 "\n" +
                 "1 1 0 0\n" +
