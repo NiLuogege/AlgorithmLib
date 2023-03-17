@@ -1,4 +1,4 @@
-package com.niluogege.lib.leetcode.动态规划;
+package com.niluogege.lib.leetcode.动态规划.基础;
 
 /**
  * https://leetcode.cn/problems/unique-paths/
