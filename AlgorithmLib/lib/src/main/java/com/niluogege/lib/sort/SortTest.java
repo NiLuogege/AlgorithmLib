@@ -89,20 +89,20 @@ public class SortTest {
      *
      * @param arr 待排序数组
      */
-    private static void bubbleSort(int[] arr) {
+    private static void bubbleSort(int[] nums) {
 
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - i; j++) {
-                if (j + 1 < arr.length) {
-                    if (arr[j] > arr[j + 1]) {
-                        int temp;
-                        temp = arr[j];
-                        arr[j] = arr[j + 1];
-                        arr[j + 1] = temp;
-                    }
+        int N = nums.length;
+        for (int i = 0; i < N - 1; i++) {          // 外循环
+            for (int j = 0; j < N - i - 1; j++) {  // 内循环
+                if (nums[j] > nums[j + 1]) {
+                    // 交换 nums[j], nums[j + 1]
+                    int tmp = nums[j];
+                    nums[j] = nums[j + 1];
+                    nums[j + 1] = tmp;
                 }
             }
         }
+
     }
 
 
