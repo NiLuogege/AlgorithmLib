@@ -10,7 +10,8 @@ public class 背包_基本理论 {
 
     public static void main(String[] args) {
 
-        //1. dp[i][j]  标识 0-i 物品中任意选放入到 j 容量的背包中 的 最大价值
+        //1. dp[i][j]  标识 0-i 物品中任意选放入到 j 容量的背包中 的 最大价值  ，
+        // 最后在强调一下 i 是物品，j是背包容量， dp[i][j] 是 0-i 个任意物品 放到j容量中最大的价值
 
         //2. 递推公式理解如下：（ dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);）
         //dp[i][j]也就是 0-i的物品中在当前容量能放的最大价值有两种情况
@@ -26,5 +27,14 @@ public class 背包_基本理论 {
 
         //4. 遍历顺序
         //  其实这里先遍历物品和先遍历背包都可以，但是先遍历物品比较好理解，因为是物品放到背包里
+        //最终的公式为
+//        weight数组的大小 就是物品个数
+//        for(int i = 1; i < weight.size(); i++) { // 遍历物品
+//            for(int j = 0; j <= bagweight; j++) { // 遍历背包容量
+//                if (j < weight[i]) dp[i][j] = dp[i - 1][j];
+//                else dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
+//
+//            }
+//        }
     }
 }
